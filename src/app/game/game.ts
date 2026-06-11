@@ -13,7 +13,12 @@ interface Pipe {
   templateUrl: './game.html',
   styleUrl: './game.css',
 })
+
 export class Game implements OnInit {
+  gameStarted = false;
+
+leaderboard: number[] = [];
+  
   birdY = 250;
   velocity = 0;
 
@@ -46,6 +51,20 @@ gameHeight = 0;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
+startGame() {
+  this.gameStarted = true;
+
+  this.gameOver = false;
+  this.started = false;
+
+  this.pipes = [];
+  this.score = 0;
+  this.birdY = this.gameHeight / 2;
+  this.velocity = 0;
+
+  this.createPipe();
+}
+
 ngOnInit(): void {
   this.gameWidth = window.innerWidth;
   this.gameHeight = window.innerHeight;
@@ -76,6 +95,7 @@ createPipe() {
 }
 
 update() {
+    if (!this.gameStarted || this.gameOver) return;
   if (this.started) {
     this.velocity += this.gravity;
     this.birdY += this.velocity;
@@ -160,10 +180,18 @@ this.birdY = this.gameHeight / 2;
     }, 16);
   }
 
-  endGame() {
-    this.gameOver = true;
-    clearInterval(this.intervalId);
-  }
+endGame() {
+  this.gameOver = true;
+  clearInterval(this.intervalId);
+
+  this.leaderboard.push(Math.round(this.score));
+  this.leaderboard.sort((a, b) => b - a);
+  this.leaderboard = this.leaderboard.slice(0, 5);
+
+  setTimeout(() => {
+    this.gameStarted = false;
+  }, 1); 
+}
 
   @HostListener('window:keydown.space')
   jump() {

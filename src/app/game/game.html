@@ -1,3 +1,19 @@
+<div class="start-screen" *ngIf="!gameStarted">
+  <h1>Flappy Game</h1>
+
+  <button class="start-btn" (click)="startGame()">
+    Spiel starten
+  </button>
+
+  <h2>Leaderboard</h2>
+
+  <div class="leaderboard">
+    <div *ngFor="let s of leaderboard; let i = index">
+      {{ i + 1 }}. {{ s }}
+    </div>
+  </div>
+</div>
+
 <div class="game-container">
 
 <div class="game">
