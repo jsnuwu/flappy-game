@@ -1,0 +1,39 @@
+<div class="game-container">
+
+<div class="game">
+<img
+  class="bird"
+  [src]="birdImage"
+  [style.top.px]="birdY"
+  [style.left.px]="BIRD_X"
+/>
+
+ <button class="jump-btn" (click)="jump()">
+  JUMP
+</button>
+
+  <ng-container *ngFor="let pipe of pipes">
+    <div class="pipe top" [style.left.px]="pipe.x" [style.height.px]="pipe.gapY - 80"></div>
+
+<div class="pipe top" 
+     [style.left.px]="pipe.x" 
+     [style.height.px]="pipe.gapY - GAP_SIZE / 2">
+
+  <div class="pipe-cap"></div>
+</div>
+
+<div class="pipe bottom" 
+     [style.left.px]="pipe.x" 
+     [style.top.px]="pipe.gapY + GAP_SIZE / 2" 
+     [style.height.px]="gameHeight  - (pipe.gapY + GAP_SIZE / 2)">
+
+  <div class="pipe-cap"></div>
+</div>
+  </ng-container>
+
+  <div class="score">Score: {{ score }}</div>
+
+  
+  <div class="game-over" *ngIf="gameOver">Game Over</div>
+</div>
+</div>
